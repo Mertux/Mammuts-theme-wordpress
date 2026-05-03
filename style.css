@@ -946,39 +946,38 @@ a.nav-dropdown-link.nav-dropdown-item--linked:hover::before {
     transform: translateZ(0);
 }
 
-/* Prevent content from hiding behind the fixed nav.
-   The hero is rendered immediately after the nav in the DOM; this padding is
-   the only intentional vertical offset, so the hero touches the menu exactly. */
+/* Prevent content from hiding behind fixed nav */
 body {
     padding-top: var(--header-height);
 }
 
-/* WP admin bar offset — desktop.
-   WordPress puts `admin-bar` directly on the body element. */
-body.admin-bar {
+/* WP admin bar offset — desktop */
+.admin-bar .header-nav-bar {
+    top: 32px;
+}
+.admin-bar body {
     padding-top: calc(var(--header-height) + 32px);
 }
 
-body.admin-bar .header-nav-bar {
-    top: 32px;
-}
-
-/* WP admin bar offset — mobile (admin bar is 46px).
-   Keep the theme menu directly below the WP admin bar and the hero directly
-   below the theme menu; this removes the visible white gap on phones. */
+/* WP admin bar offset — mobile (admin bar is 46px) */
 @media (max-width: 782px) {
-    body.admin-bar {
-        padding-top: calc(var(--header-height) + 46px);
-    }
-
-    body.admin-bar .header-nav-bar {
+    .admin-bar .header-nav-bar {
         top: 46px;
     }
+    .admin-bar body {
+        padding-top: calc(var(--header-height) + 46px);
+    }
 }
 
-/* No accidental gap between the fixed header spacer and the hero. */
-body.has-hero-banner .header-banner {
-    margin-top: 0;
+/* WP admin bar < 600px: admin bar becomes position:absolute and scrolls away.
+   Nav should sit at top:0 once admin bar is scrolled off. */
+@media (max-width: 600px) {
+    .admin-bar .header-nav-bar {
+        top: 0;
+    }
+    .admin-bar body {
+        padding-top: var(--header-height);
+    }
 }
 
 .header-nav-bar.scrolled {
